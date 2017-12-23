@@ -1,0 +1,33 @@
+{
+  "name": "prawr-server",
+  "version": "0.1.0",
+  "description": "The server for prawr",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prawr/Prawr-Server.git"
+  },
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "https://github.com/Prawr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Prawr/Prawr-Server/issues"
+  },
+  "homepage": "https://github.com/Prawr/Prawr-Server#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "http": "0.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.3"
+  }
+}
