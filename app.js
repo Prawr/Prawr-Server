@@ -7,7 +7,17 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 // Mongoose DB connection
 const mongoose = require('mongoose');
+// JSON Web Token
+const jsonWebToken = require('jsonwebtoken');
 
+/*
+    JSON Web Token
+*/
+app.set('superSecret', config.verificationSecret);
+
+/*
+    Mongoose
+*/
 // Connect to the database
 const connectionString = 'mongodb://' + config.dbHost +
                             ":" + config.dbPort +
@@ -18,9 +28,7 @@ mongoose.connect(
         useMongoClient: true
     }
 );
-/*
-    Mongoose
-*/
+
 const db = mongoose.connection;
 
 db.on('error', error => {

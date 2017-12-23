@@ -10,6 +10,12 @@ const userSchema = mongoose.Schema({
     accountStatus: {
         isBanned: { type: Boolean, default: false },
         reason: { type: String, default: '' }
+    },
+    avatar: { type: String, default: '' },
+    profile: {
+        url: { type: String, default: '' },
+        statusmessage: { type: String, default: '' },
+        background: { type: String, default: '' }
     }
 });
 
