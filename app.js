@@ -9,9 +9,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 // Connect to the database
-const connectionString = 'mongodb://' + config.dbUser +
-                            ":" + config.dbPassword +
-                            "@" + config.dbHost +
+const connectionString = 'mongodb://' + config.dbHost +
                             ":" + config.dbPort +
                             "/" + config.dbName;
 mongoose.connect(
@@ -20,12 +18,22 @@ mongoose.connect(
         useMongoClient: true
     }
 );
+/*
+    Mongoose
+*/
+const db = mongoose.connection;
 
-console.log("Connected to database: " + connectionString);
-
+db.on('error', error => {
+    console.error('Connection error', error);
+});
+db.once('open', function () {
+    console.log('Connected to database successfully!');
+});
+/*
+    Express
+*/
 // Routes
-const loginRoutes = require('./api/routes/login');
-const registerRoutes = require('./api/routes/register');
+const userRoute = require('./api/routes/user');
 
 // Logging via morgan
 app.use(morgan('dev'));
@@ -57,8 +65,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/login', loginRoutes);
-app.use('/register', registerRoutes);
+app.use('/user', userRoute);
 
 
 // Everything that is not in a route
