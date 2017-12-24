@@ -11,5 +11,9 @@ module.exports = {
     databaseTimeToWait: 10, // time in ms,
     // This is the secret used to create JSON Web Token
     // changing this is VERY IMPORTANT before deploying!
-    authSecret: "FLEscfHBR75jT2BNAEBv7AxmMAn6bNvX"
+    authSecret: "FLEscfHBR75jT2BNAEBv7AxmMAn6bNvX",
+    accountLimit: 5, // allow up to 5 accounts per ip-adress,
+    getSessionTime() {
+        return Date.now() + (1000 * 60 * 60 * 24);
+    }
 };

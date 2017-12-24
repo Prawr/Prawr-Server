@@ -102,6 +102,14 @@ app.use((req, res, next) => {
             // If authentication successful
             } else {
 
+                if(decoded.accountStatus.isBanned) {
+                    
+                    return res.status(403).json({
+                        success: false,
+                        type: 'ACCOUNT_BANNED'
+                    });
+
+                }
                 req.session = decoded;
                 next();
 
@@ -111,7 +119,10 @@ app.use((req, res, next) => {
     // User didn't pass token
     } else {
 
-        return res.status(403).send({
+        return res
+        .status(401)
+        .header('WWW-Authenticate', 'Pass authentication token. Possibilities: header value "x-access-token", query value "token", json body value "token"')
+        .send({
             success: false,
             type: 'AUTHENTICATION_NOTOKEN'
         });

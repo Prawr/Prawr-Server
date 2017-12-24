@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    name: String,
-    email: String,
+    name: { type: String, unique: true },
+    email: { type: String, unique: true },
     passwordHash: String,
     registerTimeStamp: { type: Number, default: Date.now() },
     usersFollowing: [],
