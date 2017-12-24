@@ -11,5 +11,5 @@ module.exports = {
     databaseTimeToWait: 10, // time in ms,
     // This is the secret used to create JSON Web Token
     // changing this is VERY IMPORTANT before deploying!
-    verificationSecret: "FLEscfHBR75jT2BNAEBv7AxmMAn6bNvX"
+    authSecret: "FLEscfHBR75jT2BNAEBv7AxmMAn6bNvX"
 };

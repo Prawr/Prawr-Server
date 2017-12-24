@@ -10,10 +10,6 @@ const mongoose = require('mongoose');
 // JSON Web Token
 const jsonWebToken = require('jsonwebtoken');
 
-/*
-    JSON Web Token
-*/
-app.set('superSecret', config.verificationSecret);
 
 /*
     Mongoose
@@ -41,6 +37,8 @@ db.once('open', function () {
     Express
 */
 // Routes
+const authenticateRoute = require('./api/routes/authenticate');
+
 const userRoute = require('./api/routes/user');
 
 // Logging via morgan
@@ -54,7 +52,7 @@ app.use(bodyParser.urlencoded({
 // Handling JSON
 app.use(bodyParser.json());
 
-// Throught all requests
+// Throught all requests, allow CORS
 app.use((req, res, next) => {
     // Allow CORS, prevent errors
     res.header('Access-Control-Allow-Origin', '*');
@@ -71,6 +69,58 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+/*
+*   UNAUTHENTICATED ROUTES
+*/
+app.use('/authenticate', authenticateRoute);
+
+
+
+/* 
+    AUTHENTICATED ROUTES 
+*/
+// check authentication
+app.use((req, res, next) => {
+
+    // Search for the token
+    let token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    // If user has a token
+    if(token) {
+
+        jsonWebToken.verify(token, config.authSecret, (error, decoded) => {
+
+            // On fail
+            if(error) {
+
+                return res.status(403).json({
+                    success: false,
+                    type: 'AUTHENTICATION_FAILED'
+                });
+
+            // If authentication successful
+            } else {
+
+                req.session = decoded;
+                next();
+
+            }
+        });
+
+    // User didn't pass token
+    } else {
+
+        return res.status(403).send({
+            success: false,
+            type: 'AUTHENTICATION_NOTOKEN'
+        });
+
+    }
+
+
+});
+
 
 // Routes
 app.use('/user', userRoute);

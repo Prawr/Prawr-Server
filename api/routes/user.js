@@ -62,11 +62,11 @@ router.get('/email-available/:email', (req, res, next) => {
  */
 router.get('/find/:name', (req, res, next) => {
     User
-        .find({name:req.params.name})
+        .findOne({ name:req.params.name })
         .select("name usersFollowing avatar profile")
         .then( document => {
             // Remove id
-            let preparedDocument = document[0].toObject();
+            let preparedDocument = document.toObject();
             delete preparedDocument['_id'];
             // Send response
             res.status(200).json( preparedDocument );
@@ -86,7 +86,7 @@ router.post('/dev-create', (req, res, next) => {
         _id: mongoose.Types.ObjectId(),
         name: body.name,
         email: body.email,
-        password: passwordHash.generate(body.password)
+        passwordHash: passwordHash.generate(body.password)
     });
     user.save().then( result => {
 

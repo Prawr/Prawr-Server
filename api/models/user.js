@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     passwordHash: String,
     registerTimeStamp: { type: Number, default: Date.now() },
     usersFollowing: [],
+    roles: [],
     accountStatus: {
         isBanned: { type: Boolean, default: false },
         reason: { type: String, default: '' }
